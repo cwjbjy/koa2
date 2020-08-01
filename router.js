@@ -69,7 +69,7 @@ router.post('/login',koaBody,async(ctx)=>{
 	if(Data.length !== 0){
 		Data.map(item=>{
 			if(item.password == md5_password){
-				if(userName == 'cwj18351071268'){
+				if(userName == '一叶扁舟'){
 					ctx.body={
 						auth:["firstItem","fleet","fileUp","pdf","baseEcharts","baseTable","flowChart","magnifying","drag","I18n","chatRoom","manage"],
 						value:'di5j8fy85vSAX88U'
@@ -118,6 +118,18 @@ router.get('/user',async(ctx)=>{
 		Data
 	}
 })
+
+//查单条用户
+router.get('/getUser',async(ctx)=>{
+	let {user_name} = ctx.query;
+	let data = await mysql.query(`SELECT createTime FROM USER WHERE user_name='${user_name}';`);
+	let Data = JSON.parse(JSON.stringify(data))
+	ctx.body={
+		Data,
+		code:200,
+	}
+})
+
 //删除普通用户
 router.delete('/deleteUser',async(ctx)=>{
 	let {id} = ctx.query;
