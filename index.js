@@ -54,21 +54,23 @@ wss.on('connection', function connection(ws,req) {
       switch(data.type){
         case 'setName':
           ws.nickName = data.name;
+          ws.nickImage = data.image;
           broadcast(JSON.stringify({
             name:'系统提示：',
-            text:ws.nickName + '加入了房间'
+            text:ws.nickName + '加入了房间',
           }));
           break;
         case 'chat':
           broadcast(JSON.stringify({
             name:ws.nickName,
-            text:'说：'+data.text
+            text:data.text,
+            image:ws.nickImage
           }));
           break;
         case 'close':
           broadcast(JSON.stringify({
             name:'系统提示：',
-            text:ws.nickName + '离开了房间'
+            text:ws.nickName + '离开了房间',
           }));
         case 'heart':
           broadcast(JSON.stringify({
