@@ -89,10 +89,30 @@ router.post('/login',koaBody,async(ctx)=>{
 		ctx.status=401
 	}
 })
+function isJSON(str) {
+    if (typeof str == 'string') {
+        try {
+            var obj=JSON.parse(str);
+            if(typeof obj == 'object' && obj ){
+                return true;
+            }else{
+                return false;
+            }
+
+        } catch(e) {
+            console.log('error：'+str+'!!!'+e);
+            return false;
+        }
+    }
+    console.log('It is not a string!')
+}
 //注册
 router.post('/register',async(ctx)=>{
 	console.log(ctx.request.body)
 	let newData = ctx.request.body;
+	if(isJSON(newData)){
+		newData = JSON.parse(newData)
+	}
 	let {userName,passWord,authority,createTime,photo} = newData;
 	let data = await mysql.query(`SELECT * FROM USER WHERE user_name='${userName}';`);
 	let Data = JSON.parse(JSON.stringify(data))
@@ -141,6 +161,9 @@ router.delete('/deleteUser',async(ctx)=>{
 //修改用户信息
 router.put('/updateUser',async(ctx)=>{
 	let newData = ctx.request.body;
+	if(isJSON(newData)){
+		newData = JSON.parse(newData)
+	}
 	let {id,user_name,password} = newData;
 	await  mysql.query(`UPDATE USER SET user_name='${user_name}', password=MD5('${password}') WHERE id=${id};`)
 	ctx.body={

@@ -18,7 +18,7 @@ app.use(cors({
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     maxAge: 5,
     credentials: true,
-    allowMethods: ['GET', 'POST', 'DELETE', 'PUT','PATCH'],
+    allowMethods: ['GET', 'POST', 'DELETE', 'PUT','PATCH','OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
 
