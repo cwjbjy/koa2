@@ -56,6 +56,52 @@ router.get('/user',async(ctx) =>{
 
 //与业务相关
 
+let accessToken = 'init_s_token' //短token
+let refreshToken = 'init_l_token' //长token
+
+/* 5s刷新一次短token */
+setInterval(()=>{
+    accessToken = 's_tk' + Math.random()
+    console.log(accessToken)
+},5000)
+
+/* 一小时刷新一次长token */
+setInterval(()=>{
+    refreshToken = 'l_tk'+ Math.random()
+    console.log(refreshToken)
+},600000)
+
+/* *
+@param returncode 不为0请求异常，为104代表token过期 
+*/
+
+router.get('/getData', async (ctx) => {
+    let {pass} = ctx.headers
+    /* token过期 */
+    if(pass !== accessToken){
+        ctx.body={
+            returncode:104,
+            info:'token过期'
+        }
+    }else{
+        ctx.body = {
+            code: 200,
+            returncode:0,
+            data: {id:Math.random()}
+        }
+    }   
+});
+
+router.get('/refresh.action',async (ctx) => {
+    ctx.body={
+        returncode:0,
+        data:{
+            accessToken,
+            refreshToken
+        }
+    }
+})
+
 //登录页面
 
 //登录(post请求需要koaBody)
