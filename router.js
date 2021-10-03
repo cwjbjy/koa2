@@ -144,6 +144,7 @@ router.post("/login", koaBody, async (ctx) => {
               "firstItem",
               "fleet",
               "fileUp",
+              "pdf",
               "baseEcharts",
               "baseTable",
               "flowChart",
