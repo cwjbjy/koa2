@@ -19,7 +19,7 @@ app.use(cors({
     maxAge: 5,
     credentials: true,
     allowMethods: ['GET', 'POST', 'DELETE', 'PUT','PATCH','OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept',"PASS"],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept',"PASS","X-Requested-With"],
 }))
 
 app.use(require('koa-static')(__dirname + '/public'))
