@@ -65,23 +65,29 @@ let refreshToken = "init_l_token"; //长token
 /* 5s刷新一次短token */
 setInterval(() => {
   accessToken = "s_tk" + Math.random();
-  console.log(accessToken);
 }, 5000);
 
 /* 一小时刷新一次长token */
 setInterval(() => {
   refreshToken = "l_tk" + Math.random();
-  console.log(refreshToken);
 }, 600000);
 
 /* *
 @param returncode 不为0请求异常，为104代表token过期 
 */
 
+/* 登录接口获取长短token */
+router.get("/getToken", async (ctx) => {
+  ctx.body = {
+    returncode: 0,
+    accessToken,
+    refreshToken,
+  };
+});
+
 router.get("/getData", async (ctx) => {
-  let { pass } = ctx.headers;
-  /* token过期 */
-  if (pass !== accessToken) {
+  let { authorization } = ctx.headers;
+  if (authorization !== accessToken) {
     ctx.body = {
       returncode: 104,
       info: "token过期",
@@ -95,14 +101,21 @@ router.get("/getData", async (ctx) => {
   }
 });
 
-router.get("/refresh.action", async (ctx) => {
-  ctx.body = {
-    returncode: 0,
-    data: {
+router.get("/refresh", async (ctx) => {
+  //接收的请求头字段都是小写的
+  let { pass } = ctx.headers;
+  console.log('pass',pass)
+  if (pass !== refreshToken) {
+    ctx.body = {
+      returncode: 108,
+      info: "长token过期，重新登录",
+    };
+  } else {
+    ctx.body = {
+      returncode: 0,
       accessToken,
-      refreshToken,
-    },
-  };
+    };
+  }
 });
 
 //登录页面
