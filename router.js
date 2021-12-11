@@ -67,10 +67,10 @@ setInterval(() => {
   accessToken = "s_tk" + Math.random();
 }, 5000);
 
-/* 一小时刷新一次长token */
+/* 24小时刷新一次长token */
 setInterval(() => {
   refreshToken = "l_tk" + Math.random();
-}, 600000);
+}, 86400000);
 
 /* *
 @param returncode 不为0请求异常，为104代表token过期 
