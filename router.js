@@ -118,6 +118,16 @@ router.get("/refresh", async (ctx) => {
   }
 });
 
+const userList = []
+//收集用户信息
+router.get("/getUserInfo", async (ctx) => {
+  let {data} = ctx.query
+  userList.push(data)
+  console.log(userList)
+  ctx.body = {
+  };
+});
+
 //登录页面
 
 //登录(post请求需要koaBody)
