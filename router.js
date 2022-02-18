@@ -104,7 +104,7 @@ router.get("/getData", async (ctx) => {
 router.get("/refresh", async (ctx) => {
   //接收的请求头字段都是小写的
   let { pass } = ctx.headers;
-  console.log('pass',pass)
+  console.log("pass", pass);
   if (pass !== refreshToken) {
     ctx.body = {
       returncode: 108,
@@ -118,14 +118,20 @@ router.get("/refresh", async (ctx) => {
   }
 });
 
-const userList = []
+const userList = [];
 //收集用户信息
 router.get("/getUserInfo", async (ctx) => {
-  let {data} = ctx.query
-  userList.push(data)
-  console.log(userList)
-  ctx.body = {
-  };
+  let { data } = ctx.query;
+  userList.push(data);
+  console.log(userList);
+  ctx.body = {};
+});
+
+router.post("/getVueInfo", async (ctx) => {
+  let data = ctx.request.body;
+  //   userList.push(data)
+  console.log(data);
+  ctx.body = {};
 });
 
 //登录页面
