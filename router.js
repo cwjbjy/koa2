@@ -127,10 +127,10 @@ router.get("/getUserInfo", async (ctx) => {
   ctx.body = {};
 });
 
-router.post("/getVueInfo", async (ctx) => {
+router.post("/trackweb", async (ctx) => {
   let data = ctx.request.body;
-  //   userList.push(data)
-  console.log(data);
+  userList.push(JSON.stringify(data));
+  console.log(userList);
   ctx.body = {};
 });
 
