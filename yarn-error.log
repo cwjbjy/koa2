@@ -1,0 +1,51 @@
+Arguments: 
+  D:\Develop\nodejs\node.exe D:\Develop\nodejs\node_global\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;D:\nodejs;C:\WINDOWS\System32\OpenSSH\;velop\nodejs\;D:\软件安装包\Git\cmd;D:\Develop\nodejs\;C:\Program Files\Java\jdk1.8.0_131\bin;C:\Program Files\Java\jdk1.8.0_131\jre\bin;D:\Develop\nodejs\node_global;C:\Users\root\AppData\Local\Microsoft\WindowsApps;C:\Users\root\AppData\Local\Programs\Microsoft VS Code\bin;D:\Develop\nodejs\node_global;
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  14.17.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\root\AppData\Local\Yarn\Cache\v6\npm-ms-2.1.2-d09d1f357b443f493382a8eb3ccd183872ae6009-integrity\node_modules\ms\index.js' -> 'D:\cwj\koa2\node_modules\koa-send\node_modules\ms\index.js'
+
+npm manifest: 
+  {
+    "name": "nodeapi",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon index.js"
+    },
+    "author": "web-gm",
+    "license": "ISC",
+    "dependencies": {
+      "koa": "^2.7.0",
+      "koa-body": "^4.1.0",
+      "koa-bodyparser": "^4.2.1",
+      "koa-logger": "^3.2.1",
+      "koa-router": "^7.4.0",
+      "koa-static": "^5.0.0",
+      "koa2-cors": "^2.0.6",
+      "mysql": "^2.18.1",
+      "nodemon": "^2.0.2",
+      "ws": "^7.3.1"
+    },
+    "devDependencies": {
+      "utility": "^1.16.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

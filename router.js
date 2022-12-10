@@ -1,11 +1,12 @@
 const router = require("koa-router")();
 var utility = require("utility");
+const path = require("path");
 var newfileName = "";
 const koaBody = require("koa-body")({
   multipart: true, // 允许上传多个文件,不设置的话可能会导致读不到body区域数据
   formidable: {
     maxFileSize: 2 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
-    uploadDir: "public/images", // 上传的文件存储的路径
+    uploadDir: path.join(__dirname, "./public/images"), // 上传的文件存储的路径
     keepExtensions: true, //  保存图片的扩展名
     onFileBegin: (name, file) => {
       var fileName = file.path;
