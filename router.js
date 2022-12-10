@@ -254,7 +254,9 @@ router.get("/getUser", async (ctx) => {
   let data = await mysql.query(
     `SELECT createTime FROM USER WHERE user_name='${user_name}';`
   );
+
   let Data = JSON.parse(JSON.stringify(data));
+  Data[0].createTime = Data[0].createTime.substring(0, 10);
   ctx.body = {
     Data,
     code: 200,
