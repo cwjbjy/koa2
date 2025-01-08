@@ -111,7 +111,7 @@ app.use(router.routes(),router.allowedMethods());
 //error
 //
 app.on('error', (err, ctx) => {
-    log.error('server error', err, ctx)
+    console.error('server error', err, ctx)
 });
 
 app.listen(9000,function () {

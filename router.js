@@ -21,9 +21,9 @@ const mysql = require("./mysql");
 //增删改查
 router.post("/add", async (ctx, next) => {
   const postData = ctx.request.body;
-  let { user_name, password, authority } = postData;
+  let { userName, password, authority } = postData;
   await mysql.query(
-    `INSERT INTO USER (user_name,password,authority) VALUES ('${user_name}',MD5('${password}'),'${authority}');`
+    `INSERT INTO USER (userName,password,authority) VALUES ('${userName}',MD5('${password}'),'${authority}');`
   );
   ctx.body = {
     code: 200,
@@ -41,10 +41,8 @@ router.delete("/delete", async (ctx, next) => {
 
 router.put("/update", async (ctx, next) => {
   const postData = ctx.request.body;
-  let { id, user_name, authority } = postData;
-  await mysql.query(
-    `UPDATE USER SET user_name='${user_name}', authority=${authority} WHERE id=${id};`
-  );
+  let { id, userName, authority } = postData;
+  await mysql.query(`UPDATE USER SET userName='${userName}', authority=${authority} WHERE id=${id};`);
   ctx.body = {
     code: 200,
   };
@@ -138,52 +136,55 @@ router.post("/trackweb", async (ctx) => {
 //登录页面
 
 //登录(post请求需要koaBody)
-router.post("/login", koaBody, async (ctx) => {
+router.post("/login", async (ctx) => {
   console.log(ctx.request.body);
   let newData = ctx.request.body;
-  let { userName, passWord } = newData;
-  let md5_password = utility.md5(passWord);
-  let data = await mysql.query(
-    `SELECT * FROM USER WHERE user_name='${userName}';`
-  );
+  let { userName, password } = newData;
+  let data = await mysql.query(`SELECT * FROM USER WHERE userName='${userName}';`);
   let Data = JSON.parse(JSON.stringify(data));
   if (Data.length !== 0) {
     Data.map((item) => {
-      if (item.password == md5_password) {
+      if (item.password == password) {
         if (userName == "一叶扁舟") {
           ctx.body = {
-            auth: [
-              "firstItem",
-              "fleet",
-              "fileUp",
-              "pdf",
-              "baseEcharts",
-              "baseTable",
-              "flowChart",
-              "magnifying",
-              "drag",
-              "I18n",
-              "chatRoom",
-              "manage",
-            ],
-            value: "di5j8fy85vSAX88U",
+            msg: "登录成功",
+            data: {
+              auth: [
+                "firstItem",
+                "fleet",
+                "fileUp",
+                "pdf",
+                "baseEcharts",
+                "baseTable",
+                "flowChart",
+                "magnifying",
+                "drag",
+                "I18n",
+                "chatRoom",
+                "manage",
+              ],
+              token: "di5j8fy85vSAX88U",
+            },
           };
         } else {
           ctx.body = {
-            auth: [
-              "firstItem",
-              "fleet",
-              "fileUp",
-              "pdf",
-              "baseEcharts",
-              "baseTable",
-              "flowChart",
-              "magnifying",
-              "drag",
-              "I18n",
-              "chatRoom",
-            ],
-            value: "di5j8fy85vSAX88U",
+            msg: "登录成功",
+            data: {
+              auth: [
+                "firstItem",
+                "fleet",
+                "fileUp",
+                "pdf",
+                "baseEcharts",
+                "baseTable",
+                "flowChart",
+                "magnifying",
+                "drag",
+                "I18n",
+                "chatRoom",
+              ],
+              token: "di5j8fy85vSAX88U",
+            },
           };
         }
         ctx.status = 200;
@@ -215,25 +216,20 @@ function isJSON(str) {
 router.post("/register", async (ctx) => {
   console.log(ctx.request.body);
   let newData = ctx.request.body;
-  if (isJSON(newData)) {
-    newData = JSON.parse(newData);
-  }
-  let { userName, passWord, authority, createTime, photo } = newData;
-  let data = await mysql.query(
-    `SELECT * FROM USER WHERE user_name='${userName}';`
-  );
+  let { userName, password, authority, createTime, photo } = newData;
+  let data = await mysql.query(`SELECT * FROM USER WHERE userName='${userName}';`);
   let Data = JSON.parse(JSON.stringify(data));
   if (Data.length == 0) {
     await mysql.query(
-      `INSERT INTO USER (user_name,password,authority,createTime,photo) VALUES ('${userName}',MD5('${passWord}'),'${authority}','${createTime}','${photo}');`
+      `INSERT INTO USER (userName,password,authority,createTime,photo) VALUES ('${userName}','${password}','${authority}','${createTime}','${photo}');`
     );
     ctx.body = {
-      message: "注册成功",
+      msg: "注册成功",
     };
   } else {
     ctx.status = 403;
     ctx.body = {
-      message: "用户名已存在",
+      msg: "用户名已存在",
     };
   }
 });
@@ -242,23 +238,18 @@ router.post("/register", async (ctx) => {
 //查所有用户
 router.get("/user", async (ctx) => {
   let data = await mysql.query(`SELECT * FROM USER';`);
-  let Data = JSON.parse(JSON.stringify(data));
   ctx.body = {
-    Data,
+    data:JSON.parse(JSON.stringify(data)),
   };
 });
 
 //查单条用户
-router.get("/getUser", async (ctx) => {
-  let { user_name } = ctx.query;
-  let data = await mysql.query(
-    `SELECT createTime FROM USER WHERE user_name='${user_name}';`
-  );
+router.get("/findUser", async (ctx) => {
+  let { userName } = ctx.query;
+  let data = await mysql.query(`SELECT createTime FROM USER WHERE userName='${userName}';`);
 
-  let Data = JSON.parse(JSON.stringify(data));
-  Data[0].createTime = Data[0].createTime.substring(0, 10);
   ctx.body = {
-    Data,
+    data:JSON.parse(JSON.stringify(data))[0].createTime,
     code: 200,
   };
 });
@@ -277,10 +268,8 @@ router.put("/updateUser", async (ctx) => {
   if (isJSON(newData)) {
     newData = JSON.parse(newData);
   }
-  let { id, user_name, password } = newData;
-  await mysql.query(
-    `UPDATE USER SET user_name='${user_name}', password=MD5('${password}') WHERE id=${id};`
-  );
+  let { id, userName, password } = newData;
+  await mysql.query(`UPDATE USER SET userName='${userName}', password=MD5('${password}') WHERE id=${id};`);
   ctx.body = {
     code: 200,
   };
@@ -290,10 +279,8 @@ router.put("/updateUser", async (ctx) => {
 router.post("/uploadImage", koaBody, async (ctx) => {
   // const file = ctx.request.files.file; // 获取上传文件
   // let {authorization} = ctx.headers;
-  let { user_name } = ctx.request.body;
-  await mysql.query(
-    `UPDATE USER SET photo='${newfileName}' WHERE user_name='${user_name}';`
-  );
+  let { userName } = ctx.request.body;
+  await mysql.query(`UPDATE USER SET photo='${newfileName}' WHERE userName='${userName}';`);
   ctx.body = {
     code: 200,
     message: "上传成功",
@@ -302,13 +289,10 @@ router.post("/uploadImage", koaBody, async (ctx) => {
 
 //将上传的图片返回给前端
 router.get("/getImage", async (ctx) => {
-  let { user_name } = ctx.query;
-  let data = await mysql.query(
-    `SELECT photo FROM USER WHERE user_name='${user_name}';`
-  );
-  let Data = JSON.parse(JSON.stringify(data));
+  let { userName } = ctx.query;
+  let data = await mysql.query(`SELECT photo FROM USER WHERE userName='${userName}';`);
   ctx.body = {
-    Data,
+    data: JSON.parse(JSON.stringify(data)),
     code: 200,
   };
 });
